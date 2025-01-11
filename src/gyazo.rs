@@ -1,7 +1,7 @@
 pub mod delete;
+pub mod image;
 pub mod list;
 pub mod upload;
-// pub mod image;
 // pub mod onEmbed;
 
 use reqwest::Client;
