@@ -30,6 +30,25 @@ pub struct Ocr {
 
 impl Gyazo {
     // TODO: test, docs
+    pub async fn list(&self, page: u32, per_page: u32) -> Result<Vec<ImageInfo>, reqwest::Error> {
+        let res = self
+            .client
+            .get("https://api.gyazo.com/api/images")
+            .query(&[
+                ("access_token", &self.access_token),
+                ("page", &page.to_string()),
+                ("per_page", &per_page.to_string()),
+            ])
+            .send()
+            .await?
+            .error_for_status()?
+            .json::<Vec<ImageInfo>>()
+            .await?;
+
+        Ok(res)
+    }
+
+    // TODO: test, docs
     pub async fn image(&self, image_id: &str) -> Result<ImageInfo, reqwest::Error> {
         let url = format!("https://api.gyazo.com/api/images/{}", image_id);
         let res = self
