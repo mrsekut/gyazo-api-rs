@@ -70,7 +70,7 @@ impl AccessPolicy {
 impl Gyazo {
     /// Uploads an image to Gyazo.
     // TODO: optionsの渡し方もっとマシにできないかな...
-    // TODO: clean, docs, test
+    // TODO: clean, docs
     pub async fn upload<P: AsRef<Path>>(
         &self,
         image_path: P,
@@ -124,5 +124,40 @@ impl Gyazo {
             .await?;
 
         Ok(response)
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use dotenvy::dotenv;
+    use std::env;
+    use std::path::Path;
+
+    #[tokio::test]
+    async fn test_upload_success() {
+        dotenv().ok();
+        let gyazo_token = env::var("GYAZO_TOKEN").expect("Error reading GYAZO_TOKEN");
+        let gyazo = Gyazo::new(gyazo_token);
+        let options = GyazoUploadOptions {
+            title: Some("Test Image".to_string()),
+            ..Default::default()
+        };
+        let test_image_path = Path::new(file!()).parent().unwrap().join("test_image.png");
+
+        let result = gyazo.upload(test_image_path, Some(&options)).await;
+        assert!(result.is_ok());
+        let response = result.unwrap();
+        assert!(!response.image_id.is_empty());
+        assert!(response.permalink_url.contains("gyazo.com"));
+    }
+
+    #[tokio::test]
+    async fn test_upload_failure_invalid_token() {
+        let gyazo = Gyazo::new("invalid_token".to_string());
+        let options = GyazoUploadOptions::default();
+        let test_image_path = Path::new(file!()).parent().unwrap().join("test_image.png");
+        let result = gyazo.upload(test_image_path, Some(&options)).await;
+        assert!(result.is_err());
     }
 }
