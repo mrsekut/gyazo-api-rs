@@ -1,6 +1,6 @@
+pub mod delete;
 pub mod list;
 pub mod upload;
-// pub mod delete;
 // pub mod image;
 // pub mod onEmbed;
 
