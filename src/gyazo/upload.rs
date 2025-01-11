@@ -5,7 +5,7 @@ use std::path::Path;
 
 /// Gyazo API upload response structure.
 #[derive(serde::Deserialize, Debug)]
-pub struct GyazoResponse {
+pub struct UploadResponse {
     pub created_at: String,
     pub image_id: String,
     pub permalink_url: String,
@@ -75,7 +75,7 @@ impl Gyazo {
         &self,
         image_path: P,
         options: Option<&GyazoUploadOptions>,
-    ) -> Result<GyazoResponse, reqwest::Error> {
+    ) -> Result<UploadResponse, reqwest::Error> {
         let file_content = fs::read(&image_path).expect("Failed to read the file");
 
         let mut form = multipart::Form::new()
@@ -120,7 +120,7 @@ impl Gyazo {
             .send()
             .await?
             .error_for_status()?
-            .json::<GyazoResponse>()
+            .json::<UploadResponse>()
             .await?;
 
         Ok(response)
