@@ -1,3 +1,4 @@
+use super::access_policy::AccessPolicy;
 use super::Gyazo;
 
 #[derive(serde::Deserialize, Debug)]
@@ -10,7 +11,7 @@ pub struct ImageInfo {
     /// Direct URL to the image.
     pub url: String,
     /// Access policy of the image.
-    pub access_policy: Option<String>,
+    pub access_policy: Option<AccessPolicy>,
     /// OCR information of the image.
     pub ocr: Ocr,
     /// Metadata associated with the image.

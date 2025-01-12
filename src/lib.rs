@@ -30,6 +30,8 @@ pub mod upload;
 
 // pub mod onEmbed;
 
+mod access_policy;
+
 use reqwest::Client;
 
 /// A client for interacting with the Gyazo API.

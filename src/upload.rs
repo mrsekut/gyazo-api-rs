@@ -1,3 +1,4 @@
+use super::access_policy::AccessPolicy;
 use super::Gyazo;
 use reqwest::multipart;
 use std::fs;
@@ -54,29 +55,6 @@ pub struct GyazoUploadOptions {
     /// The ID of the collection to which the image should be added.
     /// The collection must be owned by or shared with the uploader.
     pub collection_id: Option<String>,
-}
-
-/// Access policy for the uploaded image.
-#[derive(Debug, Clone)]
-pub enum AccessPolicy {
-    /// The image is visible to anyone with the link.
-    Anyone,
-    /// The image is visible only to the uploader.
-    OnlyMe,
-}
-
-impl AccessPolicy {
-    /// Converts the enum into a string representation for the API.
-    ///
-    /// # Returns
-    ///
-    /// A string slice that represents the access policy.
-    pub fn as_str(&self) -> &str {
-        match self {
-            AccessPolicy::Anyone => "anyone",
-            AccessPolicy::OnlyMe => "only_me",
-        }
-    }
 }
 
 impl Gyazo {
