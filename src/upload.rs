@@ -6,11 +6,17 @@ use std::path::Path;
 /// Gyazo API upload response structure.
 #[derive(serde::Deserialize, Debug)]
 pub struct UploadResponse {
+    /// Timestamp when the image was created.
     pub created_at: String,
+    /// Unique identifier of the uploaded image.
     pub image_id: String,
+    /// Permalink URL of the image.
     pub permalink_url: String,
+    /// URL of the thumbnail.
     pub thumb_url: String,
+    /// Type of the response.
     pub r#type: String,
+    /// Direct URL to the uploaded image.
     pub url: String,
 }
 
@@ -53,12 +59,18 @@ pub struct GyazoUploadOptions {
 /// Access policy for the uploaded image.
 #[derive(Debug, Clone)]
 pub enum AccessPolicy {
+    /// The image is visible to anyone with the link.
     Anyone,
+    /// The image is visible only to the uploader.
     OnlyMe,
 }
 
 impl AccessPolicy {
     /// Converts the enum into a string representation for the API.
+    ///
+    /// # Returns
+    ///
+    /// A string slice that represents the access policy.
     pub fn as_str(&self) -> &str {
         match self {
             AccessPolicy::Anyone => "anyone",
@@ -69,8 +81,16 @@ impl AccessPolicy {
 
 impl Gyazo {
     /// Uploads an image to Gyazo.
-    // TODO: optionsの渡し方もっとマシにできないかな...
-    // TODO: clean, docs
+    ///
+    /// # Arguments
+    ///
+    /// * `image_path` - Path to the image file to upload.
+    /// * `options` - Optional upload configuration.
+    ///
+    /// # Returns
+    ///
+    /// A `Result` containing `UploadResponse` on success or a `reqwest::Error` on failure.
+    // TODO: test
     pub async fn upload<P: AsRef<Path>>(
         &self,
         image_path: P,
