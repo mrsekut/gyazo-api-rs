@@ -1,5 +1,6 @@
 /// Access policy for the uploaded image.
-#[derive(serde::Deserialize, Debug, Clone)]
+#[derive(serde::Deserialize, serde::Serialize, Debug, Clone)]
+#[serde(rename_all = "lowercase")]
 pub enum AccessPolicy {
     /// The image is visible to anyone with the link.
     Anyone,
@@ -16,7 +17,7 @@ impl AccessPolicy {
     pub fn as_str(&self) -> &str {
         match self {
             AccessPolicy::Anyone => "anyone",
-            AccessPolicy::OnlyMe => "only_me",
+            AccessPolicy::OnlyMe => "onlyme",
         }
     }
 }
