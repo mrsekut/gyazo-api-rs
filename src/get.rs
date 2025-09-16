@@ -12,8 +12,6 @@ pub struct ImageInfo {
     pub url: String,
     /// Access policy of the image.
     pub access_policy: Option<AccessPolicy>,
-    /// OCR information of the image.
-    pub ocr: Ocr,
     /// Metadata associated with the image.
     pub metadata: Metadata,
     /// Type of the image.
@@ -37,6 +35,8 @@ pub struct Metadata {
     pub original_title: Option<String>,
     /// Original URL of the image.
     pub original_url: Option<String>,
+    /// OCR information of the image.
+    pub ocr: Option<Ocr>,
 }
 
 #[derive(serde::Deserialize, Debug)]
